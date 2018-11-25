@@ -4,7 +4,7 @@
 
 ## spring boot Dependencies 선택
 * DevTools
-* Mustache
+* Mustache -> 동적 HTML
 * Web
 
 

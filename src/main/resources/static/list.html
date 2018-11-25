@@ -11,7 +11,7 @@
   
     <!-- BootStrap - Components - NarvBar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">My-Study</a>
+      <a class="navbar-brand" href="/index.html">My-Study</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,12 +20,45 @@
           <li class="nav-item">
             <a class="nav-link" href="/form.html">회원가입 </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item active">
             <a class="nav-link" href="/list.html">사용자목록</a>
           </li>
         </ul>
       </div>
     </nav>
+
+    <div class="container">    
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User ID</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>UIDTST201811250000001</td>
+            <td>James</td>
+            <td>testMail01@gmail.com</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>UIDTST201811250000002</td>
+            <td>Thornton</td>
+            <td>testMail02@gmail.com</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>UIDTST201811250000003</td>
+            <td>the Bird</td>
+            <td>testMail03@gmail.com</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   
     <script src="/webjars/jquery/3.3.1/dist/jquery.min.js"></script>
     <script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
