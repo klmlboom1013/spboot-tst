@@ -22,4 +22,5 @@
 	* 로컬PC에 소스트리 프로그램 설치.
 
 * project
-	* https://github.com/klmlboom1013/hello-world.git
+	* https://github.com/klmlboom1013/spboot-tst.git
+	
