@@ -13,5 +13,4 @@ public class WelcomeController {
 		model.addAttribute("result","Hello, World!!");
 		return "welcome";
 	}
-	
 }
