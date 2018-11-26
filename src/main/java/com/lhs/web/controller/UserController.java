@@ -1,10 +1,10 @@
 package com.lhs.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.lhs.web.domainForm.UserForm;
@@ -12,15 +12,20 @@ import com.lhs.web.domainForm.UserForm;
 @Controller
 public class UserController {
 	
-	@Autowired
-	private HttpServletRequest request;
-
+	private static final ArrayList<UserForm> userList = new ArrayList<UserForm>();
+	
 	@PostMapping("/create")
-	public String create(UserForm data, Model model) {
+	public String create(Model model, UserForm data) {
 		model.addAttribute("userId",data.getUserId());
 		model.addAttribute("name",data.getName());
 		model.addAttribute("email",data.getEmail());
-		
-		return "/create";
+		userList.add(data);
+		return "redirect:/list";
+	}
+	
+	@GetMapping("/list")
+	public String list(Model model, UserForm data) {
+		model.addAttribute("users", userList);
+		return "list";
 	}
 }

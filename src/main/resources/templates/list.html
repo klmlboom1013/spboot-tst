@@ -20,7 +20,7 @@
             <a class="nav-link" href="/form.html">회원가입 </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="/list.html">사용자목록</a>
+            <a class="nav-link" href="/list">사용자목록</a>
           </li>
         </ul>
       </div>
@@ -30,31 +30,19 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">User ID</th>
             <th scope="col">User Name</th>
             <th scope="col">Email</th>
           </tr>
         </thead>
         <tbody>
+          {{#users}}
           <tr>
-            <th scope="row">1</th>
-            <td>UIDTST201811250000001</td>
-            <td>James</td>
-            <td>testMail01@gmail.com</td>
+            <td scope="row">{{userId}}</td>
+            <td>{{name}}</td>
+            <td>{{email}}</td>
           </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>UIDTST201811250000002</td>
-            <td>Thornton</td>
-            <td>testMail02@gmail.com</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>UIDTST201811250000003</td>
-            <td>the Bird</td>
-            <td>testMail03@gmail.com</td>
-          </tr>
+          {{/users}}
         </tbody>
       </table>
     </div>
