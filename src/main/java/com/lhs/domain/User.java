@@ -1,9 +1,24 @@
-package com.lhs.web.domainForm;
+package com.lhs.domain;
 
-public class UserForm {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class User {
+	
+	@Id
+	@GeneratedValue
+	private Long id;
+	
+	@Column(nullable=false, length=20)
 	private String userId;
-	private String name;
+	
 	private String password;
+	
+	private String name;
+	
 	private String email;
 
 	public String getUserId() {
