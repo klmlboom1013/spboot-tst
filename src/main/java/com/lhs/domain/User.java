@@ -45,6 +45,15 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+	public Long getId() {
+		return id;
+	}
+
+	public void update (User user) {
+		this.userId		= user.getUserId();
+		this.password	= user.getPassword();
+		this.email		= user.getEmail();
+		this.name		= user.getName();
+	}
 	
 }
