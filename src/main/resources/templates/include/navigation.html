@@ -45,15 +45,19 @@
             	<span class="icon-bar"></span>
             	<span class="icon-bar"></span>
             	<span class="icon-bar"></span>
-            </button>            
+            </button>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse2">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="/">Posts</a></li>
+                {{^sessUser}}
                 <li><a href="/users/loginForm" role="button">Sign In</a></li>
                 <li><a href="/users/form" role="button">Sign Up</a></li>
-                <li><a href="#" role="button">Sign Out</a></li>
-                <li><a href="#" role="button">Setting</a></li>
+                {{/sessUser}}
+                {{#sessUser}}
+                <li><a href="/users/logout" role="button">Sign Out</a></li>
+                <li><a href="/users/{{id}}/form" role="button">Setting</a></li>
+                {{/sessUser}}
             </ul>
         </div> 
     </div>
