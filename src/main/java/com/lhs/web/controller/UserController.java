@@ -15,15 +15,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.util.StringUtils;
 
+import com.lhs.common.util.HttpSessionUtils;
 import com.lhs.domain.User;
 import com.lhs.domain.UserRepository;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
-
-	private static final String _SESSION_USER_KEY_NM = "sessUser";
-	
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -31,8 +29,7 @@ public class UserController {
 	@Autowired
 	private HttpSession session;
 
-	
-	
+
 	/**
 	 * 회원가입 form
 	 * @return
@@ -65,10 +62,9 @@ public class UserController {
 	 */
 	@GetMapping("")
 	public String list(Model model, User data) {
-		User sessUser = (User)this.session.getAttribute(_SESSION_USER_KEY_NM);
-		if(ObjectUtils.isEmpty(sessUser)) {
+		if(!HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/loginForm";
-		}
+		
 		model.addAttribute("users", userRepository.findAll());
 		return "/user/list";
 	}
@@ -81,10 +77,10 @@ public class UserController {
 	 */
 	@GetMapping("/{id}/form")
 	public String updateForm(Model model, @PathVariable Long id) {
-		User sessUser = (User)this.session.getAttribute(_SESSION_USER_KEY_NM);
-		if(ObjectUtils.isEmpty(sessUser)) {
+		if(!HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/loginForm";
-		}
+		
+		final User sessUser = HttpSessionUtils.getUserFormSession(session);
 		
 		if(!StringUtils.equals(id, sessUser.getId())) {
 			throw new IllegalStateException("Miss match ID ERROR.");
@@ -93,9 +89,7 @@ public class UserController {
 		User user = this.userRepository.getOne(sessUser.getId());
 		model.addAttribute("user", user);
 		
-		session.removeAttribute(_SESSION_USER_KEY_NM);
-		session.setAttribute(_SESSION_USER_KEY_NM, user);
-		
+		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
 		
 		return "/user/updateForm";
 	}
@@ -109,10 +103,10 @@ public class UserController {
 	 */
 	@PutMapping("/{id}")
 	public String update(Model model, @PathVariable Long id, User modifyUser) {
-		User sessUser = (User)this.session.getAttribute(_SESSION_USER_KEY_NM);
-		if(ObjectUtils.isEmpty(sessUser)) {
+		if(!HttpSessionUtils.isLoginUser(session))
 			return "redirect:/users/loginForm";
-		}
+		
+		final User sessUser = HttpSessionUtils.getUserFormSession(session);
 		
 		if(!StringUtils.equals(id, sessUser.getId())) {
 			throw new IllegalStateException("Miss match ID ERROR.");
@@ -122,8 +116,8 @@ public class UserController {
 		user.update(modifyUser);
 		this.userRepository.save(user);
 		
-		session.removeAttribute(_SESSION_USER_KEY_NM);
-		session.setAttribute(_SESSION_USER_KEY_NM, user);
+		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
+		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
 		
 		return "redirect:/users";
 	}
@@ -165,7 +159,7 @@ public class UserController {
 		}
 		
 		System.out.println("Login Success [id:"+user.getUserId()+"]");
-		session.setAttribute(_SESSION_USER_KEY_NM, user);
+		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
 		
 		return "/user/profile";
 	}
@@ -176,7 +170,7 @@ public class UserController {
 	 */
 	@GetMapping("/logout")
 	public String logout() {
-		session.removeAttribute(_SESSION_USER_KEY_NM);
+		session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
 		return "redirect:/";
 	}
 }

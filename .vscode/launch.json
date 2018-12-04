@@ -5,33 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Java",
-            "type": "java",
-            "request": "launch",
-            "stopOnEntry": true,
-            "jdkPath": "D:\\lhsDoc\\programming\\java\\public\\java-1.8.0-openjdk-1.8.0.191\\bin",
-            "cwd": "${fileDirname}",
-            "startupClass": "${fileBasenameNoExtension}",
-            "classpath": [
-                ".",
-                "${fileDirname}"
-            ]
-        },
-        {
-            "name": "Java Console App",
-            "type": "java",
-            "request": "launch",
-            "stopOnEntry": true,
-            "jdkPath": "${env:JAVA_HOME}/bin",
-            "cwd": "${fileDirname}",
-            "startupClass": "${fileBasenameNoExtension}",
-            "classpath": [
-                ".",
-                "${fileDirname}"
-            ],
-            "externalConsole": true
-        },
-        {
             "type": "java",
             "name": "Debug (Launch)",
             "request": "launch",
