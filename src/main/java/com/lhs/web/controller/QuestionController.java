@@ -1,6 +1,7 @@
 package com.lhs.web.controller;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -65,6 +67,12 @@ public class QuestionController {
         return "redirect:/";
     }
 
+    @GetMapping("/show/{id}")
+    public String show(Model model, @PathVariable Long id) {
+        Question question = this.questionRepository.getOne(id);
+        model.addAttribute("question", question);
+        return goview("/show");
+    }
 
 
     private String goview (String path) {
