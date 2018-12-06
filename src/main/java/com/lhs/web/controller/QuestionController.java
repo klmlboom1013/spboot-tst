@@ -1,5 +1,7 @@
 package com.lhs.web.controller;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpSession;
 
 import com.lhs.common.util.HttpSessionUtils;
@@ -53,9 +55,10 @@ public class QuestionController {
         final User sessionUser = HttpSessionUtils.getUserFormSession(session);
 
         Question question = new Question();
-        question.setWriter(sessionUser.getUserId());
+        question.setWriter(sessionUser);
         question.setTitle(title);
         question.setContents(contents);
+        question.setCreateDate(LocalDateTime.now());
 
         questionRepository.save(question);
 

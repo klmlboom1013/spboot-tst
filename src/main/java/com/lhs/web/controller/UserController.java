@@ -161,7 +161,7 @@ public class UserController {
 		System.out.println("Login Success [id:"+user.getUserId()+"]");
 		session.setAttribute(HttpSessionUtils.USER_SESSION_KEY, user);
 		
-		return "/user/profile";
+		return "redirect:/";
 	}
 	
 	/**
