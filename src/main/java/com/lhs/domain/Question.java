@@ -32,67 +32,21 @@ public class Question {
 
     private LocalDateTime createDate;
 
-    /**
-     * @return the writer
-     */
-    public User getWriter() {
-        return writer;
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", writer='" + getWriter() + "'" +
+            ", title='" + getTitle() + "'" +
+            ", contents='" + getContents() + "'" +
+            ", createDate='" + getCreateDate() + "'" +
+            "}";
     }
 
-    /**
-     * @param writer the writer to set
-     */
-    public void setWriter(User writer) {
-        this.writer = writer;
-    }
 
-    /**
-     * @param contents the contents to set
-     */
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    /**
-     * @return the contents
-     */
-    public String getContents() {
-        return contents;
-    }
-
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param createDate the createDate to set
-     */
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    /**
-     * @return the createDate
-     */
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public void update (Question question) {
+        this.title = question.getTitle();
+        this.contents = question.getContents();
     }
 
     /** 
@@ -100,5 +54,50 @@ public class Question {
      */
     public String getFormattedCreateDate() {
         return ObjectUtils.isEmpty(createDate) ? "" : createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
+    }
+
+
+
+    //#################################################################
+	// @Getter @Setter
+	//#################################################################
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getWriter() {
+        return this.writer;
+    }
+
+    public void setWriter(User writer) {
+        this.writer = writer;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContents() {
+        return this.contents;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return this.createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
     }
 }

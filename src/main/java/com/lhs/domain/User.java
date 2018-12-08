@@ -21,6 +21,27 @@ public class User {
 	
 	private String email;
 
+	@Override
+	public String toString() {
+		return "{" +
+			" id='" + getId() + "'" +
+			", userId='" + getUserId() + "'" +
+			", password='" + getPassword() + "'" +
+			", name='" + getName() + "'" +
+			", email='" + getEmail() + "'" +
+			"}";
+	}
+
+	public void update (User user) {
+		this.userId		= user.getUserId();
+		this.password	= user.getPassword();
+		this.email		= user.getEmail();
+		this.name		= user.getName();
+	}
+
+	//#################################################################
+	// @Getter @Setter
+	//#################################################################
 	public String getUserId() {
 		return userId;
 	}
@@ -48,12 +69,4 @@ public class User {
 	public Long getId() {
 		return id;
 	}
-
-	public void update (User user) {
-		this.userId		= user.getUserId();
-		this.password	= user.getPassword();
-		this.email		= user.getEmail();
-		this.name		= user.getName();
-	}
-	
 }

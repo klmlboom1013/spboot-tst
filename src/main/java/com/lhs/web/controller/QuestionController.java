@@ -67,15 +67,14 @@ public class QuestionController {
     }
 
     @PutMapping("/{id}")
-    public String update (Model model, @PathVariable Long id, @ModelAttribute Question updatQuestion){
+    public String update (Model model, @PathVariable Long id, Question updateQuestion){
         Question question = questionRepository.getOne(id);
         if(ObjectUtils.isEmpty(question)) {
             return "redirect:/";
         }
-        
-        question.setTitle(updatQuestion.getTitle());
-        question.setContents(updatQuestion.getContents());
 
+        question.update(updateQuestion);
+        
         this.questionRepository.save(question);
 
         return "redirect:/qna/"+id;
