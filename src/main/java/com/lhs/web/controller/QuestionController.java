@@ -12,7 +12,6 @@ import com.lhs.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,23 +61,36 @@ public class QuestionController {
 
     @GetMapping("/form/{id}")
     public String updateForm(Model model, @PathVariable Long id) {
-        model.addAttribute("question", this.questionRepository.getOne(id));
+        if(!HttpSessionUtils.isLoginUser(session)) {
+            return "redirect:/users/loginForm";
+        }
+
+        final Question question = this.questionRepository.getOne(id);
+
+        if(!question.sameWriter(HttpSessionUtils.getUserFormSession(session))){
+            return "redirect:/users/loginForm";
+        }
+        
+        model.addAttribute("question", question);
         return goview("/updateForm");
     }
 
     @PutMapping("/{id}")
     public String update (Model model, @PathVariable Long id, Question updateQuestion){
-        Question question = questionRepository.getOne(id);
-        if(ObjectUtils.isEmpty(question)) {
-            return "redirect:/";
+        if(!HttpSessionUtils.isLoginUser(session)) {
+            return "redirect:/users/loginForm";
         }
 
-        question.update(updateQuestion);
+        final Question question = questionRepository.getOne(id);
+
+        if(!question.sameWriter(HttpSessionUtils.getUserFormSession(session))){
+            return "redirect:/users/loginForm";
+        }
         
+        question.update(updateQuestion);
         this.questionRepository.save(question);
-
+        
         return "redirect:/qna/"+id;
-
     }
 
     @GetMapping("/{id}")
@@ -89,7 +101,16 @@ public class QuestionController {
 
     @DeleteMapping("/{id}")
     public String delete(Model model, @PathVariable Long id) {
-        Question question = questionRepository.getOne(id);
+        if(!HttpSessionUtils.isLoginUser(session)) {
+            return "redirect:/users/loginForm";
+        }
+
+        final Question question = this.questionRepository.getOne(id);
+
+        if(!question.sameWriter(HttpSessionUtils.getUserFormSession(session))){
+            return "redirect:/users/loginForm";
+        }
+
         this.questionRepository.delete(question);
         return "redirect:/";
     }

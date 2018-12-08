@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -32,6 +33,7 @@ public class Question {
     @Lob
     private String contents;
 
+    @DateTimeFormat
     private LocalDateTime createDate;
 
     @Override
@@ -45,10 +47,13 @@ public class Question {
             "}";
     }
 
-
     public void update (Question question) {
         this.title = question.getTitle();
         this.contents = question.getContents();
+    }
+
+    public boolean sameWriter(User user) {
+        return this.writer.equals(user);
     }
 
     /** 
