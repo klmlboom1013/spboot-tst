@@ -78,11 +78,11 @@ public class QuestionController {
 
         this.questionRepository.save(question);
 
-        return "redirect:/qna/show/"+id;
+        return "redirect:/qna/"+id;
 
     }
 
-    @GetMapping("/show/{id}")
+    @GetMapping("/{id}")
     public String show(Model model, @PathVariable Long id) {
         model.addAttribute("question", this.questionRepository.getOne(id));
         return goview("/show");
