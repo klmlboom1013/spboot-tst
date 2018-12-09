@@ -2,7 +2,6 @@ package com.lhs.domain;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -11,31 +10,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Question
+ * Answer
  */
 @Entity
-public class Question {
+public class Answer {
 
     @Id
     @GeneratedValue
     private Long id;
 
     @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name="fk_question_writer"))
+    @JoinColumn(foreignKey=@ForeignKey(name="fk_answer_writer"))
     private User writer;
     
-    @OneToMany(mappedBy="question")
-    @OrderBy("id ASC")
-    private List<Answer> answers;
-
-    private String title;
+    @ManyToOne
+    @JoinColumn(foreignKey=@ForeignKey(name="fk_answer_question"))
+    private Question question;
 
     @Lob
     private String contents;
@@ -43,29 +38,15 @@ public class Question {
     @DateTimeFormat
     private LocalDateTime createDate;
 
-    
-    public Question() {}
-    
-    public Question(User writer, String title, String contents, LocalDateTime createDate) {
-		super();
-		this.writer = writer;
-		this.title = title;
-		this.contents = contents;
-		this.createDate= createDate;
-	}
+    public Answer() {}
 
-    
-	@Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", writer='" + getWriter() + "'" +
-            ", title='" + getTitle() + "'" +
-            ", contents='" + getContents() + "'" +
-            ", createDate='" + getCreateDate() + "'" +
-            "}";
+    public Answer(User writer, Question question, String contents, LocalDateTime localDateTime) {
+        this.writer = writer;
+        this.question = question;
+        this.contents = contents;
+        this.createDate = localDateTime;
     }
-	
+
     @Override
 	public int hashCode() {
 		final int prime = 31;
@@ -82,7 +63,7 @@ public class Question {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Question other = (Question) obj;
+		Answer other = (Answer) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -90,26 +71,21 @@ public class Question {
 			return false;
 		return true;
 	}
-
-	public void update (Question question) {
-        this.title = question.getTitle();
-        this.contents = question.getContents();
-    }
-
-    public boolean sameWriter(User user) {
-        return this.writer.equals(user);
-    }
-
-    /** 
+	
+	@Override
+	public String toString() {
+		return "Answer [id=" + id + ", writer=" + writer + ", question=" + question + ", contents=" + contents
+				+ ", createDate=" + createDate + "]";
+	}
+	
+	/** 
      * @return String
      */
     public String getFormattedCreateDate() {
         return ObjectUtils.isEmpty(createDate) ? "" : createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
     }
 
-
-
-    //#################################################################
+	//#################################################################
 	// @Getter @Setter
 	//#################################################################
     public Long getId() {
@@ -127,16 +103,16 @@ public class Question {
     public void setWriter(User writer) {
         this.writer = writer;
     }
+    
+    public Question getQuestion() {
+		return question;
+	}
 
-    public String getTitle() {
-        return this.title;
-    }
+	public void setQuestion(Question question) {
+		this.question = question;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContents() {
+	public String getContents() {
         return this.contents;
     }
 
@@ -150,13 +126,5 @@ public class Question {
 
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
-    }
-
-	public List<Answer> getAnswers() {
-		return answers;
-	}
-
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
-	}
+    }    
 }

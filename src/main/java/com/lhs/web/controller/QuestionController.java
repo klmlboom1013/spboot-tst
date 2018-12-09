@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * QuestionController
  */
 @Controller
-@RequestMapping("/qna")
+@RequestMapping("/questions")
 public class QuestionController {
 
     @Autowired
@@ -54,12 +54,13 @@ public class QuestionController {
         
         createQuestion.setWriter(sessionUser);
         createQuestion.setCreateDate(LocalDateTime.now());
+        
         questionRepository.save(createQuestion);
 
         return "redirect:/";
     }
 
-    @GetMapping("/form/{id}")
+    @GetMapping("/{id}/form")
     public String updateForm(Model model, @PathVariable Long id) {
         if(!HttpSessionUtils.isLoginUser(session)) {
             return "redirect:/users/loginForm";
