@@ -96,7 +96,7 @@ public class Question {
         this.contents = question.getContents();
     }
 
-    public boolean sameWriter(User user) {
+    public boolean isSameWriter(User user) {
         return this.writer.equals(user);
     }
 
