@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -24,7 +25,7 @@ import org.springframework.util.ObjectUtils;
 public class Question {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
@@ -47,7 +48,6 @@ public class Question {
     public Question() {}
     
     public Question(User writer, String title, String contents, LocalDateTime createDate) {
-		super();
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;

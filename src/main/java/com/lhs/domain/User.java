@@ -3,13 +3,14 @@ package com.lhs.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class User {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
 	@Column(nullable=false, length=20, unique=true)
@@ -20,6 +21,15 @@ public class User {
 	private String name;
 	
 	private String email;
+
+	public User () {}
+	
+	public User(String userId, String password, String name, String email) {
+		this.userId = userId;
+		this.password = password;
+		this.name = name;
+		this.email = email;
+	}
 
 	@Override
 	public String toString() {

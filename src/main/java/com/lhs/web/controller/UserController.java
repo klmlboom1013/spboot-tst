@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.util.StringUtils;
 
 import com.lhs.common.util.HttpSessionUtils;
@@ -29,8 +28,7 @@ public class UserController {
 	
 	@Autowired
 	private HttpSession session;
-
-
+	
 	/**
 	 * 회원가입 form
 	 * @return

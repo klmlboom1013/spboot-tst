@@ -1,5 +1,7 @@
 package com.lhs.web.controller;
 
+import java.time.LocalDateTime;
+
 import javax.servlet.http.HttpSession;
 
 import com.lhs.common.util.HttpSessionUtils;
@@ -39,7 +41,7 @@ public class QuestionController {
     @GetMapping("/form")
     public String form (Model model) {
     	Result result = valid(null);
-    	if(result.isValid()) {
+    	if(!result.isValid()) {
     		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
     	}
@@ -55,10 +57,14 @@ public class QuestionController {
     @PostMapping("/form")
     public String form (Model model, String title, String contents) {
     	Result result = valid(null);
-    	if(result.isValid()) {
+    	if(!result.isValid()) {
     		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
     	}
+    	
+    	Question question = new Question(HttpSessionUtils.getUserFormSession(session), title, contents, LocalDateTime.now());
+    	this.questionRepository.save(question);
+    	
         return "redirect:/";
     }
 
@@ -111,8 +117,7 @@ public class QuestionController {
      */
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable Long id) {
-    	final Question question = this.questionRepository.getOne(id);
-    	Result result = this.valid(question);    	
+    	Result result = this.valid(null);    	
     	if(!result.isValid()) {
     		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
