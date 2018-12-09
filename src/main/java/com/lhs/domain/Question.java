@@ -18,6 +18,9 @@ import javax.persistence.OrderBy;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ObjectUtils;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Question
  */
@@ -28,10 +31,12 @@ public class Question {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name="fk_question_writer"))
     private User writer;
     
+    @JsonManagedReference
     @OneToMany(mappedBy="question")
     @OrderBy("id ASC")
     private List<Answer> answers;

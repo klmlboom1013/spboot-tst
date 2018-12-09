@@ -54,12 +54,13 @@
                         <div class="qna-comment-slipp">
                             <p class="qna-comment-count"><strong>2</strong>개의 의견</p>
                             <div class="qna-comment-slipp-articles">
-                            	
-                            	{{#answers}}
+
+                                {{#answers}}
                                 <article class="article" id="answer-1405">
                                     <div class="article-header">
                                         <div class="article-header-thumb">
-                                            <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
+                                            <img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb"
+                                                alt="">
                                         </div>
                                         <div class="article-header-text">
                                             <a href="/users/1/자바지기" class="article-author-name">{{writer.userId}}</a>
@@ -87,15 +88,15 @@
                                     </div>
                                 </article>
                                 {{/answers}}
-                                
-                                <form class="submit-write" method="POST" action="/questions/{{id}}/answers">
+
+                                <form class="answer-write" method="POST" action="/api/questions/{{id}}/answers">
                                     <div class="form-group" style="padding:14px;">
                                         <textarea class="form-control" name="contents" placeholder="Update your status"></textarea>
                                     </div>
                                     <input type="submit" class="btn btn-success pull-right" value="답변하기">
                                     <div class="clearfix" />
                                 </form>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -134,7 +135,7 @@
 		</ul>
 		</div>
 	</article>
-</script>
+    </script>
 
     {{> /include/footer}}
 </body>

@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ObjectUtils;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Answer
  */
@@ -24,10 +27,12 @@ public class Answer {
     @GeneratedValue
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(foreignKey=@ForeignKey(name="fk_answer_writer"))
     private User writer;
     
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(foreignKey=@ForeignKey(name="fk_answer_question"))
     private Question question;
