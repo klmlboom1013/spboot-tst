@@ -1,12 +1,11 @@
 package com.lhs.web.controller;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpSession;
 
 import com.lhs.common.util.HttpSessionUtils;
 import com.lhs.domain.Question;
 import com.lhs.domain.QuestionRepository;
+import com.lhs.domain.Result;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,10 +38,9 @@ public class QuestionController {
      */
     @GetMapping("/form")
     public String form (Model model) {
-    	try {
-    		hasPermission(null);
-    	} catch (Exception e) {
-    		model.addAttribute("errMessage", e.getMessage());
+    	Result result = valid(null);
+    	if(result.isValid()) {
+    		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
     	}
         return goview ("/form");
@@ -56,11 +54,9 @@ public class QuestionController {
      */
     @PostMapping("/form")
     public String form (Model model, String title, String contents) {
-    	try {
-    		hasPermission(null);
-    		questionRepository.save(new Question(HttpSessionUtils.getUserFormSession(session), title, contents, LocalDateTime.now()));
-    	} catch (Exception e) {
-    		model.addAttribute("errMessage", e.getMessage());
+    	Result result = valid(null);
+    	if(result.isValid()) {
+    		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
     	}
         return "redirect:/";
@@ -74,14 +70,14 @@ public class QuestionController {
      */
     @GetMapping("/{id}/form")
     public String updateForm(Model model, @PathVariable Long id) {
-    	try {
-       		final Question question = this.questionRepository.getOne(id);
-       		this.hasPermission(question);
-       		model.addAttribute("question", question);
-       	} catch(Exception e) {
-       		model.addAttribute("errMessage", e.getMessage());
+    	final Question question = this.questionRepository.getOne(id);
+    	Result result = this.valid(question);    	
+    	if(!result.isValid()) {
+    		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
-       	}
+    	}
+    	
+       	model.addAttribute("question", question);       	
         return goview("/updateForm");
     }
 
@@ -94,15 +90,16 @@ public class QuestionController {
      */
     @PutMapping("/{id}")
     public String update (Model model, @PathVariable Long id, Question updateQuestion){
-    	try {
-       		final Question question = this.questionRepository.getOne(id);
-       		this.hasPermission(question);
-       		question.update(updateQuestion);
-            this.questionRepository.save(question);
-       	} catch(Exception e) {
-       		model.addAttribute("errMessage", e.getMessage());
+    	final Question question = this.questionRepository.getOne(id);
+    	Result result = this.valid(question);    	
+    	if(!result.isValid()) {
+    		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
-       	}
+    	}
+    	
+    	question.update(updateQuestion);
+        this.questionRepository.save(question);
+       	
         return "redirect:/questions/"+id;
     }
 
@@ -114,14 +111,13 @@ public class QuestionController {
      */
     @GetMapping("/{id}")
     public String show(Model model, @PathVariable Long id) {
-    	try {
-       		final Question question = this.questionRepository.getOne(id);
-       		this.hasPermission(question);
-       		model.addAttribute("question", this.questionRepository.getOne(id));
-       	} catch(Exception e) {
-       		model.addAttribute("errMessage", e.getMessage());
+    	final Question question = this.questionRepository.getOne(id);
+    	Result result = this.valid(question);    	
+    	if(!result.isValid()) {
+    		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
-       	}
+    	}
+    	model.addAttribute("question", this.questionRepository.getOne(id));
         return goview("/show");
     }
 
@@ -133,25 +129,25 @@ public class QuestionController {
      */
     @DeleteMapping("/{id}")
     public String delete(Model model, @PathVariable Long id) {
-    	try {
-       		final Question question = this.questionRepository.getOne(id);
-       		this.hasPermission(question);
-       		this.questionRepository.delete(question);
-       	} catch(Exception e) {
-       		model.addAttribute("errMessage", e.getMessage());
+    	final Question question = this.questionRepository.getOne(id);
+    	Result result = this.valid(question);    	
+    	if(!result.isValid()) {
+    		model.addAttribute("errMessage", result.getErrorMessage());
     		return "/user/login";
-       	}
+    	}
+    	this.questionRepository.delete(question);
     	return "redirect:/";
     }
     
     
-    private void hasPermission(Question question) {
+    private Result valid (Question question) {
     	if(!HttpSessionUtils.isLoginUser(session))
-            throw new IllegalStateException("로그인이 필요 합니다.");
-    	
+    		return Result.fail("로그인이 필요 합니다.");
+            
     	if(!ObjectUtils.isEmpty(question) && !question.isSameWriter(HttpSessionUtils.getUserFormSession(session))) {
-    		throw new IllegalStateException("자신이 작성한 글만 수정, 삭제가 가능 합니다.");
+    		return Result.fail("자신이 작성한 글만 수정, 삭제가 가능 합니다.");
     	}
+    	return Result.OK();
     }
     
 
