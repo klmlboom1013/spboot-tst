@@ -1,4 +1,10 @@
 {
     "java.home": "D:\\lhsDoc\\programming\\java\\public\\java-1.8.0-openjdk-1.8.0.191",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    }
 }

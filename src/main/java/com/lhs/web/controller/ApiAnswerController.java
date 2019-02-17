@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,15 +32,25 @@ public class ApiAnswerController {
 	private HttpSession session;
 	
 	
+	@GetMapping("/{id}")
+	public Answer show(@PathVariable Long id) {
+		Answer answer = answerRepository.findById(id).get();
+		
+		System.out.println("writer : "+answer.getWriter().toString());
+		System.out.println("question : " + answer.getQuestion().toString());
+		
+		return answer;
+	}
+	
 	@PostMapping("")
-	public Answer create(Model model, @PathVariable Long questionId, String contents) {
-		if(!HttpSessionUtils.isLoginUser(session))
+	public Answer create(@PathVariable Long questionId, String contents) {
+		if(!HttpSessionUtils.isLoginUser(session)) {
             return null;
+		}
+		final User loginUser = HttpSessionUtils.getUserFormSession(session);
+		final Question question = questionRepository.findById(questionId).get();
+		final Answer answer = answerRepository.save(new Answer(loginUser, question, contents, LocalDateTime.now()));
 		
-		final Question question = questionRepository.getOne(questionId);
-		final User writer = HttpSessionUtils.getUserFormSession(session);
-		
-		Answer answer = answerRepository.save(new Answer(writer, question, contents, LocalDateTime.now()));
 		System.out.println(answer.toString());
 		
 		return answer;

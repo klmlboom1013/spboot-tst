@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -14,32 +15,38 @@ import javax.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ObjectUtils;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Answer
  */
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Answer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @JsonProperty
     private Long id;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(foreignKey=@ForeignKey(name="fk_answer_writer"))
+    @JsonProperty
     private User writer;
     
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(foreignKey=@ForeignKey(name="fk_answer_question"))
+    @JsonProperty
     private Question question;
 
     @Lob
+    @JsonProperty
     private String contents;
 
     @DateTimeFormat
+    @JsonProperty
     private LocalDateTime createDate;
 
     public Answer() {}
@@ -82,33 +89,30 @@ public class Answer {
 				+ ", createDate=" + createDate + "]";
 	}
 	
-	/** 
-     * @return String
-     */
+	//#################################################################
+	// @Getter @Setter
+	//#################################################################
     public String getFormattedCreateDate() {
         return ObjectUtils.isEmpty(createDate) ? "" : createDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
     }
 
-	//#################################################################
-	// @Getter @Setter
-	//#################################################################
-    public Long getId() {
-        return this.id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public User getWriter() {
-        return this.writer;
-    }
+	public User getWriter() {
+		return writer;
+	}
 
-    public void setWriter(User writer) {
-        this.writer = writer;
-    }
-    
-    public Question getQuestion() {
+	public void setWriter(User writer) {
+		this.writer = writer;
+	}
+
+	public Question getQuestion() {
 		return question;
 	}
 
@@ -117,18 +121,18 @@ public class Answer {
 	}
 
 	public String getContents() {
-        return this.contents;
-    }
+		return contents;
+	}
 
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
+	public void setContents(String contents) {
+		this.contents = contents;
+	}
 
-    public LocalDateTime getCreateDate() {
-        return this.createDate;
-    }
+	public LocalDateTime getCreateDate() {
+		return createDate;
+	}
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }    
+	public void setCreateDate(LocalDateTime createDate) {
+		this.createDate = createDate;
+	}    
 }
