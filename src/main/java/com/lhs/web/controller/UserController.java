@@ -17,7 +17,7 @@ import org.thymeleaf.util.StringUtils;
 
 import com.lhs.common.util.HttpSessionUtils;
 import com.lhs.domain.User;
-import com.lhs.domain.UserRepository;
+import com.lhs.domain.repository.UserRepository;
 
 @Controller
 @RequestMapping("/users")

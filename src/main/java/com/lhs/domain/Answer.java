@@ -57,6 +57,10 @@ public class Answer {
         this.contents = contents;
         this.createDate = localDateTime;
     }
+    
+    public boolean isSammeWriter(User loginUser) {
+    	return loginUser.equals(this.writer);
+    }
 
     @Override
 	public int hashCode() {

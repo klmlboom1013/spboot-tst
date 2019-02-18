@@ -1,37 +1,44 @@
+$('.answer-write input[type=submit]').click(function(e) {
+	e.preventDefault();
 
-$('.answer-write input[type=submit]').click(function(e){
-  e.preventDefault();
-  console.log("addAnswer");
-
-  var queryString = $(".answer-write").serialize();
-  console.log(queryString);
-
-  var url = $('.answer-write').attr('action');
-  console.log(url);
-
-  $.ajax({
-    type : 'post',
-    url : url,
-    data : queryString,
-    dataType : 'json',
-    success : onSuccess,
-    error : onError,
-  });
+	var queryString = $(".answer-write").serialize();
+	var url = $('.answer-write').attr('action');
+	$.ajax({
+		type : 'post',
+		url : url,
+		data : queryString,
+		dataType : 'json',
+		success : function(data, status) {
+			var answerTemplate = $('#answerTemplate').html();
+			var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents, data.question.id, data.id);
+			$('.qna-comment-slipp-articles').prepend(template);
+			$('textarea[name=contents]').val("");
+		},
+		error : function(xhr, status) {
+			console.error(xhr);
+		}
+	});
 });
 
-
-function onError() {
-	
-}
-
-function onSuccess(data, status) {
-	console.log(data);
-	var answerTemplate = $('#answerTemplate').html();
-	var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents, data.id, data.id);
-    
-	$('.qna-comment-slipp-articles').prepend(template);
-    $('textarea[name=contents]').val("");
-}
+$("a.link-delete-article").click(function(e) {
+	e.preventDefault();
+	var deleteArticle = $(this);
+	var url = deleteArticle.attr('href');
+	console.log(url);
+	$.ajax({
+		type : "delete",
+		url : url,
+		dataType : "json",
+		success : function(data, status) {
+			if(data.valid){
+				deleteArticle.closest("article").remove();
+			}
+		},
+		error : function(xhr, status) {
+			console.error(xhr);
+		}
+	});
+});
 
 String.prototype.format = function() {
 	var args = arguments;
@@ -39,9 +46,3 @@ String.prototype.format = function() {
 		return typeof args[number] != 'undefined' ? args[number] : match;
 	});
 };
-
-
-
-
-
-

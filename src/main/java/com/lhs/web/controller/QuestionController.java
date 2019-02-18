@@ -6,8 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import com.lhs.common.util.HttpSessionUtils;
 import com.lhs.domain.Question;
-import com.lhs.domain.QuestionRepository;
 import com.lhs.domain.Result;
+import com.lhs.domain.repository.QuestionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

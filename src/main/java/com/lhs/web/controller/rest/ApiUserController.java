@@ -1,4 +1,4 @@
-package com.lhs.web.controller;
+package com.lhs.web.controller.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lhs.domain.User;
-import com.lhs.domain.UserRepository;
+import com.lhs.domain.repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")

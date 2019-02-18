@@ -6,9 +6,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import com.lhs.domain.Question;
-import com.lhs.domain.QuestionRepository;
 import com.lhs.domain.User;
-import com.lhs.domain.UserRepository;
+import com.lhs.domain.repository.QuestionRepository;
+import com.lhs.domain.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
