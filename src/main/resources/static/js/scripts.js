@@ -1,6 +1,5 @@
 $('.answer-write input[type=submit]').click(function(e) {
 	e.preventDefault();
-
 	var queryString = $(".answer-write").serialize();
 	var url = $('.answer-write').attr('action');
 	$.ajax({
@@ -20,7 +19,7 @@ $('.answer-write input[type=submit]').click(function(e) {
 	});
 });
 
-$("a.link-delete-article").click(function(e) {
+$('.qna-comment-slipp-articles').on('click', '.link-delete-article', function(e) {
 	e.preventDefault();
 	var deleteArticle = $(this);
 	var url = deleteArticle.attr('href');
@@ -40,9 +39,46 @@ $("a.link-delete-article").click(function(e) {
 	});
 });
 
+
 String.prototype.format = function() {
 	var args = arguments;
 	return this.replace(/{(\d+)}/g, function(match, number) {
 		return typeof args[number] != 'undefined' ? args[number] : match;
 	});
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
