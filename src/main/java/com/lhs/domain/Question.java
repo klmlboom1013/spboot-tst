@@ -18,9 +18,7 @@ import javax.persistence.OrderBy;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ObjectUtils;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -52,12 +50,14 @@ public class Question {
     @Lob
     @JsonProperty
     private String contents;
+    
+    @JsonProperty
+    private Integer countAnswer =0;
 
     @DateTimeFormat
     @JsonProperty
     private LocalDateTime createDate;
 
-    
     public Question() {}
     
     public Question(User writer, String title, String contents, LocalDateTime createDate) {
@@ -67,6 +67,15 @@ public class Question {
 		this.createDate= createDate;
 	}
 
+    
+    public void addAnswer() {
+    	countAnswer++;
+    }
+    
+    public void deleteAnswer() {
+    	countAnswer--;
+    }
+    
     
 	@Override
     public String toString() {
@@ -168,5 +177,14 @@ public class Question {
 	public void setCreateDate(LocalDateTime createDate) {
 		this.createDate = createDate;
 	}
+
+	public Integer getCountAnswer() {
+		return countAnswer;
+	}
+
+	public void setCountAnswer(Integer countAnswer) {
+		this.countAnswer = countAnswer;
+	}
+	
    
 }

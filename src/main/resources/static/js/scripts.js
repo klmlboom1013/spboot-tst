@@ -8,6 +8,9 @@ $('.answer-write input[type=submit]').click(function(e) {
 		data : queryString,
 		dataType : 'json',
 		success : function(data, status) {
+			var countAnswer = data.question.countAnswer;
+			$('.qna-comment .qna-comment-slipp .qna-comment-count strong').text(countAnswer);
+			
 			var answerTemplate = $('#answerTemplate').html();
 			var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents, data.question.id, data.id);
 			$('.qna-comment-slipp-articles').prepend(template);
@@ -29,8 +32,11 @@ $('.qna-comment-slipp-articles').on('click', '.link-delete-article', function(e)
 		url : url,
 		dataType : "json",
 		success : function(data, status) {
+			console.log(data);
 			if(data.valid){
 				deleteArticle.closest("article").remove();
+				var countAnswer = data.resultData;
+				$('.qna-comment .qna-comment-slipp .qna-comment-count strong').text(countAnswer);
 			}
 		},
 		error : function(xhr, status) {

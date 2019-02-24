@@ -36,7 +36,6 @@ public class ApiAnswerController {
 	
 	@GetMapping("/{id}")
 	public Answer show(@PathVariable Long id) {
-		System.out.println("[[ SHOW ]]");
 		Answer answer = answerRepository.findById(id).get();
 		
 		System.out.println("writer : "+answer.getWriter().toString());
@@ -50,19 +49,19 @@ public class ApiAnswerController {
 		if(!HttpSessionUtils.isLoginUser(session)) {
             return null;
 		}
-		final User loginUser = HttpSessionUtils.getUserFormSession(session);
-		final Question question = questionRepository.findById(questionId).get();
-		final Answer answer = answerRepository.save(new Answer(loginUser, question, contents, LocalDateTime.now()));
 		
-		System.out.println(answer.toString());
+		User loginUser = HttpSessionUtils.getUserFormSession(session);
+		Question question = questionRepository.findById(questionId).get();
+		Answer answer = answerRepository.save(new Answer(loginUser, question, contents, LocalDateTime.now()));
+		
+		question.addAnswer();
+		questionRepository.save(question);
 		
 		return answer;
 	}
 	
 	@DeleteMapping("/{id}")
 	public Result delete(@PathVariable Long questionId, @PathVariable Long id) {
-		System.out.println("[[ delete ]]");
-		
 		if(!HttpSessionUtils.isLoginUser(session)) {
             return Result.fail("로그인이 후 가능합니다.");
 		}
@@ -75,7 +74,12 @@ public class ApiAnswerController {
 		}
 		
 		answerRepository.deleteById(id);
-		return Result.OK();
+		
+		Question question = questionRepository.findById(questionId).get();
+		question.deleteAnswer();
+		questionRepository.save(question);
+		
+		return Result.OK(new Integer(question.getCountAnswer()));
 	}
 	
 }
