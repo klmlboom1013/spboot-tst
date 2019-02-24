@@ -8,11 +8,12 @@ $('.answer-write input[type=submit]').click(function(e) {
 		data : queryString,
 		dataType : 'json',
 		success : function(data, status) {
+			console.log(data);
 			var countAnswer = data.question.countAnswer;
 			$('.qna-comment .qna-comment-slipp .qna-comment-count strong').text(countAnswer);
 			
 			var answerTemplate = $('#answerTemplate').html();
-			var template = answerTemplate.format(data.writer.userId, data.formattedCreateDate, data.contents, data.question.id, data.id);
+			var template = answerTemplate.format(data.writer.userId, data.createdDate, data.contents, data.question.id, data.id);
 			$('.qna-comment-slipp-articles').prepend(template);
 			$('textarea[name=contents]').val("");
 		},

@@ -1,7 +1,5 @@
 package com.lhs.web.controller.rest;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +50,7 @@ public class ApiAnswerController {
 		
 		User loginUser = HttpSessionUtils.getUserFormSession(session);
 		Question question = questionRepository.findById(questionId).get();
-		Answer answer = answerRepository.save(new Answer(loginUser, question, contents, LocalDateTime.now()));
+		Answer answer = answerRepository.save(new Answer(loginUser, question, contents));
 		
 		question.addAnswer();
 		questionRepository.save(question);

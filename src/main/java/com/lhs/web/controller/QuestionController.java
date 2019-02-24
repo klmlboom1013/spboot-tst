@@ -1,13 +1,6 @@
 package com.lhs.web.controller;
 
-import java.time.LocalDateTime;
-
 import javax.servlet.http.HttpSession;
-
-import com.lhs.common.util.HttpSessionUtils;
-import com.lhs.domain.Question;
-import com.lhs.domain.Result;
-import com.lhs.domain.repository.QuestionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.lhs.common.util.HttpSessionUtils;
+import com.lhs.domain.Question;
+import com.lhs.domain.Result;
+import com.lhs.domain.repository.QuestionRepository;
 
 /**
  * QuestionController
@@ -62,7 +60,7 @@ public class QuestionController {
     		return "/user/login";
     	}
     	
-    	Question question = new Question(HttpSessionUtils.getUserFormSession(session), title, contents, LocalDateTime.now());
+    	Question question = new Question(HttpSessionUtils.getUserFormSession(session), title, contents);
     	this.questionRepository.save(question);
     	
         return "redirect:/";
